@@ -1,0 +1,45 @@
+class Solution {
+public:
+    void helper(vector<int>& nums, vector<string>& ans, int index, string& temp) {
+        if (index == nums.size())
+            ans.push_back(temp);
+        for (int l = index; l < nums.size(); l++)
+        {
+            swap(nums[l], nums[index]);
+            temp = "";
+            for (int i = 0; i < nums.size(); i++) {
+                temp += to_string(nums[i]);
+            }
+            helper(nums, ans, index + 1, temp);
+            swap(nums[l], nums[index]);
+        }
+    }
+    
+
+    string getPermutation(int n, int k) {
+    if (n == 1)
+        return "1";
+    
+    string ans = "";
+    int index = 0;
+    vector<int> nums;
+    int fact = 1;
+    
+    for (int i = 1; i < n; i++) {
+        nums.push_back(i);
+        fact = fact * i;
+    }
+    nums.push_back(n);
+    k = k - 1;
+    while (true) {
+        ans += to_string(nums[k / fact]);
+        nums.erase(nums.begin() + k / fact);
+        if(nums.size() == 0 )
+            break;
+        k = k % fact;
+        fact = fact / nums.size();
+    }
+    //ans += to_string(nums[0]);
+    return ans;
+}
+};
